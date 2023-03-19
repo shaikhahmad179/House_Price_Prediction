@@ -31,7 +31,7 @@ for i in range(1, number_of_iter):
         driver.get('https://www.bproperty.com/en/bangladesh/properties-for-sale/'+page_route+str(i))
 
     root_div_tag = driver.find_element(By.XPATH, '//*[@id="body-wrapper"]/main/div[2]/div[3]/div[2]/div[1]')
-    list_of_property_url = root_div_tag.find_elements(By.CSS_SELECTOR, 'a._287661cb')
+    list_of_property_url = root_div_tag.find_elements(By.CSS_SELECTOR, 'li.ef447dde div._4041eb80 a._287661cb')
 
     for url in list_of_property_url:
 
@@ -44,4 +44,6 @@ for i in range(1, number_of_iter):
     driver.quit()
 
 df = pd.DataFrame(list_of_urls)
+df = df.drop_duplicates(subset=['url'])
 df.to_csv('URL.csv', index = False)
+
