@@ -52,18 +52,16 @@ for property in list_of_property:
     property_json["price"] = price
 
     bed_bath_sqfeet = property.find_element(By.CSS_SELECTOR, 'div._22b2f6ed')
-    bed_bath_sqfeet = bed_bath_sqfeet.text
+    bedroom, bathroom, sq_ft = dp.get_rooms_and_size(bed_bath_sqfeet.text)
+
+    property_json["bedroom"] = bedroom
+    property_json["bathroom"] = bathroom
+    property_json["sq_ft"] = sq_ft
 
     location = property.find_element(By.CSS_SELECTOR, 'div._7afabd84')
     location = location.text
 
-    property_json["bed_bath_sqfeet"] = bed_bath_sqfeet
     property_json["location"] = location
-
-    print(property_json)
-    print('---'* 50)
-
     list_of_json.append(property_json)
 
 # Terminates the driver
-driver.quit()
