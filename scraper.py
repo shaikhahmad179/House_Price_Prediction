@@ -3,6 +3,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 import time
 
+from data_preprocessing_functions import Preprocessing
+
 # Selenium Driver Setup
 chrome_options = Options()
 chrome_options.add_experimental_option("detach", True)
@@ -36,14 +38,18 @@ time.sleep(3)
 root_div_tag = driver.find_element(By.XPATH, '//*[@id="body-wrapper"]/main/div[2]/div[3]/div[2]/div[1]')
 list_of_property = root_div_tag.find_elements(By.CSS_SELECTOR, 'div.d6e81fd0')
 
+# Preprcessing Class
+dp = Preprocessing()
+
 list_of_json = []
 
 for property in list_of_property:
 
-    property_json =  {}
+    property_json = {}
 
     price = property.find_element(By.CSS_SELECTOR, 'div.c4fc20ba')
-    price = price.text
+    price = dp.price(price.text)
+    property_json["price"] = price
 
     bed_bath_sqfeet = property.find_element(By.CSS_SELECTOR, 'div._22b2f6ed')
     bed_bath_sqfeet = bed_bath_sqfeet.text
@@ -51,7 +57,6 @@ for property in list_of_property:
     location = property.find_element(By.CSS_SELECTOR, 'div._7afabd84')
     location = location.text
 
-    property_json["price"] = price
     property_json["bed_bath_sqfeet"] = bed_bath_sqfeet
     property_json["location"] = location
 
